@@ -5,16 +5,6 @@ from tkinter import PhotoImage
 root = tk.Tk()
 name = root.title("Lemonade Stand")
 
-total_price = 0
-choice = tk.StringVar()
-number = tk.StringVar()
-ice_number = tk.StringVar()
-placeholder = tk.StringVar()
-
-#def lemonade_order():
-#    global number
-#    calculate_price()
-
 def write_price():
     global total_price
     choicep = choice.get()
@@ -45,12 +35,18 @@ def ice_calulation():
         total_price = total_price
         total_price_label.config(text=f"Total Price: {total_price}")
 
+total_price = 0
+choice = tk.StringVar()
+number = tk.StringVar()
+ice_number = tk.StringVar()
+
 image = PhotoImage(file="lemonade_pic.png")
 resize_image = image.subsample(8, 8)
+amount_of_lemonade = tk.Label(root, text="Amount of\nLemonade:")
 image_label = ttk.Label(root, image=resize_image)
 image_label.grid(row=0, column=0, rowspan=5)
 
-amount_of_lemonade = tk.Label(root, text="Amount of\nLemonade:")
+
 amount_of_lemonade.grid(row=0, column=1)
 
 amout_of_lemonade_box = ttk.Entry(root, textvariable = number)
