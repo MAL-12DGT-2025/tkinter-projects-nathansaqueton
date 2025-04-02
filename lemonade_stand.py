@@ -36,8 +36,8 @@ def ice_calulation():
     if with_ice == "1": 
         v += eval(f"{size}+({numberpp}*0.25)")
     elif with_ice == "0":
-        v = size
-    total_price_label.config(text=f"Total Price: {v}")
+        v = eval(size + 0)
+    return v
 
 # Adds items to cart
 def add_to_cart():
@@ -46,26 +46,63 @@ def add_to_cart():
     with_ice = ice_number.get()
     global cart
     global total_price
+    global v
     if int(numberp) > 0:
-        if choicep == "1":
-            if with_ice == "1":
-                cart.append(f"{numberp} Lemonade(s), size: 100ml, with ice")
-            else:
-                cart.append(f"{numberp} Lemonade(s), size: 100ml")
-        elif choicep == "2":
-            if with_ice == "1":
-                cart.append(f"{numberp} Lemonade(s), size: 250ml, with ice")
-            else:
-                cart.append(f"{numberp} Lemonade(s), size: 250ml")
-        elif choicep == "3":
-            if with_ice == "1":
-                cart.append(f"{numberp} Lemonade(s), size: 500ml, with ice")
-            else:
-                cart.append(f"{numberp} Lemonade(s), size: 500ml")
-        i = "\n".join(cart)
-        cart_contents.config(text=i)
-    else:
-        cart = cart
+        if flavor_value.get() == "Normal":
+            if choicep == "1":
+                if with_ice == "1":
+                    cart.append(f"{numberp}x Lemonade(s), size: 100ml, with ice")
+                else:
+                    cart.append(f"{numberp}x Lemonade(s), size: 100ml")
+            elif choicep == "2":
+                if with_ice == "1":
+                   cart.append(f"{numberp}x Lemonade(s), size: 250ml, with ice")
+                else:
+                    cart.append(f"{numberp}x Lemonade(s), size: 250ml")
+            elif choicep == "3":
+                if with_ice == "1":
+                    cart.append(f"{numberp}x Lemonade(s), size: 500ml, with ice")
+                else:
+                    cart.append(f"{numberp}x Lemonade(s), size: 500ml")
+
+        elif flavor_value.get() == "Strawberry":
+            if choicep == "1":
+                if with_ice == "1":
+                    cart.append(f"{numberp}x Strawberry Lemonade(s), size: 100ml, with ice")
+                else:
+                    cart.append(f"{numberp}x Strawberry Lemonade(s), size: 100ml")
+            elif choicep == "2":
+                if with_ice == "1":
+                   cart.append(f"{numberp}x Strawberry Lemonade(s), size: 250ml, with ice")
+                else:
+                    cart.append(f"{numberp}x Strawberry Lemonade(s), size: 250ml")
+            elif choicep == "3":
+                if with_ice == "1":
+                    cart.append(f"{numberp}x Strawberry Lemonade(s), size: 500ml, with ice")
+                else:
+                    cart.append(f"{numberp}x Strawberry Lemonade(s), size: 500ml")
+
+        elif flavor_value.get() == "Peach":
+            if choicep == "1":
+                if with_ice == "1":
+                    cart.append(f"{numberp}x Peach Lemonade(s), size: 100ml, with ice")
+                else:
+                    cart.append(f"{numberp}x Peach Lemonade(s), size: 100ml")
+            elif choicep == "2":
+                if with_ice == "1":
+                   cart.append(f"{numberp}x Peach Lemonade(s), size: 250ml, with ice")
+                else:
+                    cart.append(f"{numberp}x Peach Lemonade(s), size: 250ml")
+            elif choicep == "3":
+                if with_ice == "1":
+                    cart.append(f"{numberp}x Peach Lemonade(s), size: 500ml, with ice")
+                else:
+                    cart.append(f"{numberp}x Peach Lemonade(s), size: 500ml")
+    i = "\n".join(cart)
+    cart_contents.config(text=i)
+    total_price += v
+    print(total_price)
+    total_price_label.config(text=f"Total Price: {total_price}")
     return cart
 
 # Remove items in cart
@@ -88,7 +125,7 @@ number = tk.StringVar()
 ice_number = tk.StringVar()
 
 # Widgets
-image = PhotoImage(file="lemonade_pic.png")
+image = PhotoImage(file="Many lemonades.png")
 resize_image = image.subsample(8, 8)
 amount_of_lemonade = tk.Label(root, text="Amount of\nLemonade:")
 image_label = ttk.Label(root, image=resize_image)
@@ -108,11 +145,12 @@ cart_label = ttk.Label(root, text="Cart:")
 total_price_label = ttk.Label(root, text=f"Total Price: {total_price}")
 add_button = ttk.Button(root, text="Add to cart", command= add_to_cart)
 ice_price = ttk.Label(root, text="$0.25")
-flavor_box = ttk.Combobox(root, state="readonly",textvariable= flavor_value ,values=["Normal", "Strawberry (+ $1)", "Peach (+ $1)"])
+flavor_box = ttk.Combobox(root, state="readonly",textvariable= flavor_value ,values=["Normal", "Strawberry", "Peach"])
 flavor_box.current(0)
+checkout_button = ttk.Button(root, text="Checkout", command= root.quit)
 
 # Grid
-amount_of_lemonade.grid(row=0, column=1)
+amount_of_lemonade.grid(row=0, column=1 , padx= 5, pady= 5)
 amout_of_lemonade_box.grid(row=0, column=2)
 size_text.grid(row=3, column=1)
 one_hundred_ml.grid(row=4, column=1)
@@ -121,11 +159,12 @@ five_hundred_ml.grid(row=6, column=1)
 with_ice.grid(row=7, column=1)
 one_hundred_ml_price.grid(row=4, column=2)
 two_hundred_fifty_ml_price.grid(row=5, column=2)
-five_hundred_ml_price.grid(row=5, column=2)
+five_hundred_ml_price.grid(row=6, column=2)
 cart_contents.grid(row=6, column=0)
 cart_label.grid(row=5, column=0)
-remove_button.grid(row=10, column=1, columnspan=2, pady=10)
-total_price_label.grid(row=11, column=1, rowspan=2, columnspan=2)
+remove_button.grid(row=10, column=1, columnspan=2, pady=3)
+checkout_button.grid(row=11, column=1, columnspan=2)
+total_price_label.grid(row=12, column=1, rowspan=2, columnspan=2)
 ice_price.grid(row=7, column=2)
 add_button.grid(row=9, column=1, columnspan=2)
 flavor_box.grid(row=2, column=1, columnspan=2)
